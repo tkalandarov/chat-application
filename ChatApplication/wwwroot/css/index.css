@@ -1,0 +1,90 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500, 600,800&display=swap');
+
+body {
+    padding: 0;
+    margin: 0;
+    background: -webkit-linear-gradient(-45deg, #DCF0F7 0, #778BBB 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'Montserrat', sans-serif;
+    color: #242F3F;
+}
+
+header {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    background-color: #fff;
+}
+
+    header .title {
+        font-size: 1.5rem;
+        font-weight: 900;
+        line-height: 50px;
+    }
+
+.chat .bubble-wrapper {
+    width: 100vw;
+    height: fit-content;
+    position: relative;
+}
+
+.chat .bubble {
+    padding: 25px;
+    max-width: 33%;
+    width: fit-content;
+    border-radius: 20px;
+    position: relative;
+    display: inline-block;
+    clear: both;
+    margin: 5px;
+}
+
+    .chat .bubble.me {
+        background-color: #ECEFF1;
+        float: right;
+    }
+
+    .chat .bubble.other {
+        background-color: #00B0FF;
+        color: #fff;
+        float: left;
+    }
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+    background-color: #fff;
+}
+
+    footer .write {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 0 20px;
+        height: inherit;
+    }
+
+        footer .write i {
+            margin: 0 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+            footer .write i:hover {
+                transform: scale(1.2);
+            }
+
+        footer .write input {
+            width: 90%;
+            margin: auto;
+            border: none;
+            outline: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
