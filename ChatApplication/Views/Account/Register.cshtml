@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/login.css">
+}
+
+
+<div class="center">
+    <form class="form-login" asp-controller="Account" asp-action="Register" method="post">
+
+        <h2>Register</h2>
+
+        <div class="input-wrapper">
+            <label class="label-form">Username</label>
+            <input class="input-form" type="text" name="username" placeholder="New username" required>
+        </div>
+        <div class="input-wrapper">
+            <label class="label-form">Password</label>
+            <input class="input-form" type="password" name="password" placeholder="At least 6 characters" required>
+        </div>
+        <input type="submit" id="btn-submit" value="Register" style="margin:auto;" />
+    </form>
+</div>

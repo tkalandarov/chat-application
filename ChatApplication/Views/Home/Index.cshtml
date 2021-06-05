@@ -1,26 +1,100 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@model List<ChatApplication.Models.ChatViewModel>;
+@{
+    ViewData["Title"] = $"Chats";
 }
 
 @section Styles{
     <link rel="stylesheet" href="~/css/index.css">
 }
 
-<header>
-    <span class="title">Support Service</span>
-</header>
+@section Scripts{
+    <script src="~/js/index.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
 
-<div class="chat">
-    <div class="bubble me">Hello Sir!</div>
+    <script src="~/js/textareaAutosize.js"></script>
+}
 
-    <div class="bubble other">Good morning!</div>
-</div>
+<div class="wrapper">
+    <div class="left">
 
-<footer>
-    <div class="write">
-        <i class="fas fa-paperclip"></i>
-        <input type="text" placeholder="Write a message..." />
-        <i class="far fa-smile"></i>
-        <i class="fas fa-paper-plane"></i>
+        <div class="top">
+            <input type="text" placeholder="Search" />
+        </div>
+
+        <ul class="people">
+            <li class="person">
+                <img src="~/images/avatar.png" alt="" />
+                <span class="name">Thomas Bangalter</span>
+                <span class="time">2:09 PM</span>
+                <span class="preview">I was wondering...</span>
+            </li>
+            @foreach (var c in Model)
+            {
+                <li class="person" onclick="loadChat('@c.RecipientName')">
+                    <img src="~/images/avatar.png" alt="" />
+                    <span class="name">@c.RecipientName</span>
+                    <span class="time">@c.LastMessage?.Timestamp.ToShortTimeString()</span>
+                    <span class="preview">@c.LastMessage?.Text</span>
+                </li>
+            }
+            <li class="person">
+                <img src="~/images/avatar.png" alt="" />
+                <span class="name">Dog Woofson</span>
+                <span class="time">1:44 PM</span>
+                <span class="preview">I've forgotten how it felt before</span>
+            </li>
+        </ul>
     </div>
-</footer>
+
+    <div class="right">
+        <div id="select-chat-div">
+            <p>Select a recepient...</p>
+        </div>
+        @foreach (var c in Model)
+        {
+            <div class="chat-wrapper" data-recipient="@c.RecipientName">
+                <div id="titleDiv">
+                    <span class="title">@c.RecipientName <i class="fas fa-circle" style="color:limegreen"></i></span>
+                </div>
+
+                <div class="chat">
+                    @{
+                        List<Message> messages = new();
+                        messages.AddRange(c.MyMessages);
+                        messages.AddRange(c.OtherMessages);
+                        foreach (var m in messages.OrderBy(x => x.Timestamp))
+                        {
+                            if (c.MyMessages.Contains(m))
+                            {
+                                <div class="bubble me">
+                                    <span class="message-text">@m.Text</span>
+                                    <span class="message-time">@m.Timestamp.ToShortTimeString()</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="bubble other">
+                                    <span class="message-text">@m.Text</span>
+                                    <span class="message-time">@m.Timestamp.ToShortTimeString()</span>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+
+                <div id="writeDiv">
+                    <div class="write">
+                        <i class="fas fa-paperclip"></i>
+                        <input type="hidden" id="myUsername" value="@User.Identity.Name" />
+                        <textarea id="message-text" placeholder="Write a message..."></textarea>
+                        <i class="far fa-smile"></i>
+                        <button id="btn-send" onclick="sendMessage('@c.RecipientName')">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
